@@ -72,6 +72,8 @@ int is_valid_instr(insn_t * i, int arch){
         return (c != '0') && (c != '.');
     }else if(arch == ARCH_powerpc){
         return (c != '.');
+    }else if(arch == ARCH_xtensa){
+        return !strstr(i->decoded_instrs, "byte");
     }
 
     return 0;
@@ -125,6 +127,49 @@ int is_branch(insn_t * i, int arch){
 
     if(arch == ARCH_x86){
         if(strstr(i->decoded_instrs, "jmp"))
+            return 1;
+    }
+
+    if(arch == ARCH_xtensa){
+        if(strstr(i->decoded_instrs, "ball"))
+            return 1;
+        if(strstr(i->decoded_instrs, "bany"))
+            return 1;
+        if(strstr(i->decoded_instrs, "bbc"))
+            return 1;
+        if(strstr(i->decoded_instrs, "bbci"))
+            return 1;
+        if(strstr(i->decoded_instrs, "bbci.l"))
+            return 1;
+        if(strstr(i->decoded_instrs, "bbs"))
+            return 1;
+        if(strstr(i->decoded_instrs, "bbsi"))
+            return 1;
+        if(strstr(i->decoded_instrs, "bbsi.l"))
+            return 1;
+        if(strstr(i->decoded_instrs, "beq"))
+            return 1;
+        if(strstr(i->decoded_instrs, "beqi"))
+            return 1;
+        if(strstr(i->decoded_instrs, "beqz"))
+            return 1;
+        if(strstr(i->decoded_instrs, "bf"))
+            return 1;
+        if(strstr(i->decoded_instrs, "bge"))
+            return 1;
+        if(strstr(i->decoded_instrs, "blt"))
+            return 1;
+        if(strstr(i->decoded_instrs, "bnall"))
+            return 1;
+        if(strstr(i->decoded_instrs, "bnone"))
+            return 1;
+        if(strstr(i->decoded_instrs, "call"))
+            return 1;
+        if(strstr(i->decoded_instrs, "j\t"))
+            return 1;
+        if(strstr(i->decoded_instrs, "jx\t"))
+            return 1;
+        if(strstr(i->decoded_instrs, "ret"))
             return 1;
     }
 

@@ -52,7 +52,7 @@ void print_version(){
 void print_usage(){
     printf("Usage: xrop [-r arch] [-b bits] [-e bytes] [-l endian] [-a relocaddr] [-s regex] [-v] [-h] inputfile\n");
     printf("\t -b (16 | 32 | 64) sets the processor mode\n");
-    printf("\t -r (arm | mips | powerpc | x86) raw binary file of given architecture\n");
+    printf("\t -r (arm | mips | powerpc | x86 | xtensa) raw binary file of given architecture\n");
     printf("\t -v displays the version number\n");
     printf("\t -l (b | e) big or little endian\n");
     printf("\t -e skips <bytes> of header\n");
@@ -158,6 +158,14 @@ int handle_execable(char * infile, size_t depth, char ** re){
         printf("Searching ROP gadgets for \"%s\" - \e[32mPowerPC Executable\e[m...\n", infile);
         arch = ARCH_powerpc;
         sdepth = PPC_DEFAULT_DEPTH;
+    }else if(barch == bfd_arch_xtensa){ // xtensa
+        if(endian) {
+            printf("Searching ROP gadgets for xtensa in big endian is not supported\n");
+            exit(-1);
+        }
+        printf("Searching ROP gadgets for \"%s\" - \e[32mXtensa Executable\e[m...\n", infile);
+        arch = ARCH_xtensa;
+        sdepth = XTENSA_DEFAULT_DEPTH;
     }else{
         printf("%s: Unsupported architecture %s\n", XNAME, bfdh->xvec->name);
         return -1;
@@ -392,6 +400,9 @@ int main(int argc, char **argv){
         } 
         else if(!strcmp(rval, "mips")){
             arch = ARCH_mips;
+        }
+        else if(!strcmp(rval, "xtensa")){
+            arch = ARCH_xtensa;
         }
         else{
             print_usage();

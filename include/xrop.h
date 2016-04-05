@@ -29,12 +29,16 @@
 #define DEFAULT_DEPTH 4
 #define MIPS_DEFAULT_DEPTH 8
 #define PPC_DEFAULT_DEPTH 8
+#define XTENSA_DEFAULT_DEPTH 8
 #define MAX_DEPTH 20
 #define X86MAX_INSTR_SIZE 15
 #define MAX_GADGET_LEN 100
 #define ARM_INSTR_SIZE 4
 #define MIPS_INSTR_SIZE 4
 #define PPC_INSTR_SIZE 4
+#define XTENSA_INSTR_SIZE_COUNT 2
+#define XTENSA_MIN_INSTR_SIZE 2
+#define XTENSA_MAX_INSTR_SIZE 3
 
 // Instruction output function macros
 #define BEG_OUTPUT 2
@@ -64,6 +68,11 @@ typedef struct thumb_node_t{
     struct thumb_node_t * left;     // instruction of size 2
     struct thumb_node_t * right;    // instruction of size 4
 }thumb_node_t;
+
+typedef struct xtensa_node_t{
+    insn_t * insn;
+    struct xtensa_node_t * children[XTENSA_INSTR_SIZE_COUNT];
+}xtensa_node_t;
 
 typedef struct config_t{
     unsigned long long vma;
