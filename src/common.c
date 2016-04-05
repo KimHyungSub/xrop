@@ -73,7 +73,7 @@ int is_valid_instr(insn_t * i, int arch){
     }else if(arch == ARCH_powerpc){
         return (c != '.');
     }else if(arch == ARCH_xtensa){
-        return !strstr(i->decoded_instrs, "byte");
+        return !strstr(i->decoded_instrs, "byte") && !strstr(i->decoded_instrs, "ill");
     }
 
     return 0;
