@@ -163,7 +163,10 @@ int is_branch(insn_t * i, int arch){
             return 1;
         if(strstr(i->decoded_instrs, "bnone"))
             return 1;
-        if(strstr(i->decoded_instrs, "call"))
+        // nice if we could track calls + jumps, but not supported right now
+        // note that callx0 is really useful in gadgets, and doesn't trigger
+	// search stop via this function
+        if(strstr(i->decoded_instrs, "call0"))  
             return 1;
         if(strstr(i->decoded_instrs, "j\t"))
             return 1;
